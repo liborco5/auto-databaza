@@ -3,6 +3,7 @@ import sqlite3
 import os
 
 app = Flask(__name__)
+init_db()
 app.secret_key = "tajne_heslo_123"  # môžeš zmeniť
 
 DB_NAME = "cars.db"
@@ -109,6 +110,6 @@ def delete_car(spz):
     return redirect("/")
 
 if __name__ == "__main__":
-    init_db()
     app.run(host="0.0.0.0", port=10000)
+
 
