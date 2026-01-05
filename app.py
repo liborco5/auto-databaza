@@ -9,7 +9,7 @@ DB_NAME = "cars.db"
 APP_PASSWORD = "mojeheslo"  # 👈 SEM SI DAJ VLASTNÉ HESLO
 
 def get_db():
-    return sqlite3.connect(DB_NAME)
+    return sqlite3.connect(DB_NAME, check_same_thread=False)
 
 def init_db():
     db = get_db()
@@ -111,3 +111,4 @@ def delete_car(spz):
 if __name__ == "__main__":
     init_db()
     app.run(host="0.0.0.0", port=10000)
+
