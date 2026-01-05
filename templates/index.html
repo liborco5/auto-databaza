@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Databáza áut</title>
+
+<style>
+body {
+    background:#121212;
+    color:#e0e0e0;
+    font-family:Arial;
+    padding:20px;
+    margin:0;
+}
+
+input, button {
+    padding:10px;
+    margin:6px 0;
+    background:#1e1e1e;
+    color:#fff;
+    border:1px solid #444;
+    border-radius:6px;
+    font-size:16px;
+}
+
+button {
+    cursor:pointer;
+}
+
+button:hover {
+    background:#333;
+}
+
+.box {
+    background:#1b1b1b;
+    padding:15px;
+    border-radius:8px;
+    margin-top:15px;
+}
+
+a {
+    color:#ff6666;
+    text-decoration:none;
+    margin-left:10px;
+}
+
+/* 📱 MOBILNÝ LAYOUT */
+@media (max-width: 600px) {
+    body {
+        padding:10px;
+    }
+
+    input, button {
+        width:100%;
+        font-size:18px;
+    }
+
+    h2, h3 {
+        text-align:center;
+    }
+
+    a {
+        display:block;
+        margin:10px 0;
+        text-align:center;
+    }
+}
+</style>
+
+<script>
+function toggle(id){
+    const e=document.getElementById(id);
+    e.style.display = e.style.display==="none" ? "block" : "none";
+}
+</script>
+</head>
+
+<body>
+
+<h2>Vyhľadanie auta podľa ŠPZ</h2>
+
+<div class="box">
+<form method="post">
+    <input name="spz" placeholder="ŠPZ" required>
+    <button>Vyhľadať</button>
+</form>
+
+{% if car %}
+<h3>{{ car[2] }}</h3>
+<ul>
+<li><b>Olej:</b> {{ car[3] }} ({{ car[4] }} l)</li>
+<li><b>Norma:</b> {{ car[5] }}</li>
+<li><b>Olejový filter:</b> {{ car[6] }}</li>
+<li><b>Vzduchový filter:</b> {{ car[7] }}</li>
+<li><b>Palivový filter:</b> {{ car[8] }}</li>
+</ul>
+
+<button onclick="toggle('editForm')">✏️ Upraviť</button>
+<a href="/delete/{{ car[1] }}" onclick="return confirm('Naozaj zmazať auto?')">🗑️ Zmazať</a>
+
+<div id="editForm" class="box" style="display:none;">
+<h3>Úprava auta</h3>
+<form action="/update" method="post">
+<input type="hidden" name="spz" value="{{ car[1] }}">
+<input name="name" value="{{ car[2] }}">
+<input name="oil_type" value="{{ car[3] }}">
+<input name="oil_amount" value="{{ car[4] }}">
+<input name="oil_norm" value="{{ car[5] }}">
+<input name="oil_filter" value="{{ car[6] }}">
+<input name="air_filter" value="{{ car[7] }}">
+<input name="fuel_filter" value="{{ car[8] }}">
+<button>Uložiť zmeny</button>
+</form>
+</div>
+{% endif %}
+</div>
+
+<hr>
+
+<button onclick="toggle('addForm')">➕ Pridať auto</button>
+
+<div id="addForm" class="box" style="display:none;">
+<form action="/add" method="post">
+<input name="spz" placeholder="ŠPZ" required>
+<input name="name" placeholder="Názov auta" required>
+<input name="oil_type" placeholder="Typ oleja" required>
+<input name="oil_amount" placeholder="Množstvo oleja">
+<input name="oil_norm" placeholder="Norma oleja">
+<input name="oil_filter" placeholder="Olejový filter">
+<input name="air_filter" placeholder="Vzduchový filter">
+<input name="fuel_filter" placeholder="Palivový filter">
+<button>Uložiť</button>
+</form>
+</div>
+
+</body>
+</html>
